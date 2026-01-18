@@ -1,0 +1,45 @@
+# --- Build & Output Folders ---
+build/
+cmake-build-*/
+bin/
+lib/
+*.out
+*.app
+*.exe
+*.dll
+*.so
+*.dylib
+
+# --- CMake Artifacts ---
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
+install_manifest.txt
+compile_commands.json
+
+# --- Intermediate Object Files ---
+*.d
+*.o
+*.obj
+*.gch
+*.pch
+
+# --- Testing & Coverage ---
+*.gcov
+*.gcda
+*.gcno
+test_detail.xml
+_deps/
+
+# --- IDE & Editor Settings (Optional but recommended) ---
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+*.sublime-workspace
+*.sublime-project
+
+# --- Clang/LLVM ---
+.cache/
