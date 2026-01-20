@@ -1,20 +1,37 @@
-# Memory Tests
+include(GoogleTest) # Required for gtest_discover_tests
+
+# --- Common Flags ---
+# We use AddressSanitizer (ASan) to catch buffer overflows in Array/Vector.
+# This is non-negotiable for Systems Programming.
+set(MEMORY_FLAGS -fsanitize=address -g)
+
+# ==========================================
+# 1. Day 1 & 2: Memory (Array, Vector, Pointers)
+# ==========================================
 add_executable(memory_tests memory_tests.cpp)
 target_link_libraries(memory_tests GTest::gtest_main)
-# Add Sanitizers for memory debugging (Optional but recommended)
-target_compile_options(memory_tests PRIVATE -fsanitize=address -g)
-target_link_options(memory_tests PRIVATE -fsanitize=address)
-add_test(NAME MemoryTests COMMAND memory_tests)
 
-# Concurrency Tests (Needs Threads)
-add_executable(concurrency_tests concurrency_tests.cpp)
-target_link_libraries(concurrency_tests GTest::gtest_main pthread)
-# Use Thread Sanitizer for these tests
-target_compile_options(concurrency_tests PRIVATE -fsanitize=thread -g)
-target_link_options(concurrency_tests PRIVATE -fsanitize=thread)
-add_test(NAME ConcurrencyTests COMMAND concurrency_tests)
+# Apply Sanitizers
+target_compile_options(memory_tests PRIVATE ${MEMORY_FLAGS})
+target_link_options(memory_tests PRIVATE ${MEMORY_FLAGS})
 
-# Systems Tests
-add_executable(systems_tests systems_tests.cpp)
-target_link_libraries(systems_tests GTest::gtest_main)
-add_test(NAME SystemsTests COMMAND systems_tests)
+# MAGIC LINE: Parses the C++ file to register every TEST() individually
+gtest_discover_tests(memory_tests)
+
+# ==========================================
+# 2. Day 3-8: Concurrency (LockFree, Threads)
+# ==========================================
+# Uncomment when you reach Day 3
+# add_executable(concurrency_tests concurrency_tests.cpp)
+# target_link_libraries(concurrency_tests GTest::gtest_main pthread)
+# target_compile_options(concurrency_tests PRIVATE -fsanitize=thread -g)
+# target_link_options(concurrency_tests PRIVATE -fsanitize=thread)
+# gtest_discover_tests(concurrency_tests)
+
+# ==========================================
+# 3. Day 9-10: Systems (OrderBook)
+# ==========================================
+# Uncomment when you reach Day 9
+# add_executable(systems_tests systems_tests.cpp)
+# target_link_libraries(systems_tests GTest::gtest_main)
+# gtest_discover_tests(systems_tests)
