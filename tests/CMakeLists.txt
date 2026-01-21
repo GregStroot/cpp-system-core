@@ -18,6 +18,10 @@ target_link_options(memory_tests PRIVATE ${MEMORY_FLAGS})
 # MAGIC LINE: Parses the C++ file to register every TEST() individually
 gtest_discover_tests(memory_tests)
 
+add_executable(vector_tests vector_tests.cpp)
+target_link_libraries(vector_tests GTest::gtest_main)
+gtest_discover_tests(vector_tests)
+
 # ==========================================
 # 2. Day 3-8: Concurrency (LockFree, Threads)
 # ==========================================
