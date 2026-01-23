@@ -15,10 +15,11 @@ A from-scratch implementation of core data structures using C++ 20.
 We are breaking them down into four categories:
 
 ### 1. Memory & Ownership
-- [ ] **`Vector<T>`**:
-- [ ] **`Array<T, N>`**:
+- [x] **`Vector<T>`**:
+- [x] **`Array<T, N>`**:
 - [ ] **`SharedPtr<T>`**:
-- [ ] **`UniquePtr<T>`**:
+- [x] **`UniquePtr<T>`**:
+    - [ ] Custom deleter constructor
 
 ### 2. Lock-Free & Queues
 - [ ] **`SpscRing<T>`**:

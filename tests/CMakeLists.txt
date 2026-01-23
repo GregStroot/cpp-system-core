@@ -22,6 +22,10 @@ add_executable(vector_tests vector_tests.cpp)
 target_link_libraries(vector_tests GTest::gtest_main)
 gtest_discover_tests(vector_tests)
 
+add_executable(unique_ptr_tests unique_ptr_tests.cpp)
+target_link_libraries(unique_ptr_tests GTest::gtest_main)
+gtest_discover_tests(unique_ptr_tests)
+
 # ==========================================
 # 2. Day 3-8: Concurrency (LockFree, Threads)
 # ==========================================
