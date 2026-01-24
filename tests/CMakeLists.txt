@@ -26,6 +26,10 @@ add_executable(unique_ptr_tests unique_ptr_tests.cpp)
 target_link_libraries(unique_ptr_tests GTest::gtest_main)
 gtest_discover_tests(unique_ptr_tests)
 
+add_executable(shared_ptr_tests shared_ptr_tests.cpp)
+target_link_libraries(shared_ptr_tests GTest::gtest_main)
+gtest_discover_tests(shared_ptr_tests)
+
 # ==========================================
 # 2. Day 3-8: Concurrency (LockFree, Threads)
 # ==========================================
