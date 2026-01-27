@@ -17,8 +17,10 @@ We are breaking them down into four categories:
 ### 1. Memory & Ownership
 - [x] **`Vector<T>`**:
 - [x] **`Array<T, N>`**:
-- [ ] **`SharedPtr<T>`**:
+- [x] **`SharedPtr<T>`**:
+    - [x] **make_shared**
 - [x] **`UniquePtr<T>`**:
+    - [x] **make_unique**
     - [ ] Custom deleter constructor
 
 ### 2. Lock-Free & Queues
