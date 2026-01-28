@@ -49,13 +49,14 @@ namespace My {
 
         // Returns true if successful, false if full.
         bool push(const T& item) {
-            const size_t curr_tail = tail_.load(std::memory_order_seq_cst);
+            const size_t curr_tail = tail_.load(std::memory_order_relaxed);
             const size_t next_tail = (curr_tail + 1) % capacity_;
-            //Producer therefore no one modifies tail_
-            if ( next_tail != head_.load()) {
+            //Producer therefore we must acquire head (ensure we are sync'd with pop)
+            if ( next_tail != head_.load(std::memory_order_acquire)) {
                 //If head not directly in front of tail, we can push
-                buff_[tail_] = item;
-                tail_.store(next_tail);
+                buff_[curr_tail] = item;
+                //Release to ensure pop can get it
+                tail_.store(next_tail, std::memory_order_release);
                 return true;
             }
             else {
@@ -63,12 +64,14 @@ namespace My {
             }
         };
         bool push(T&& item) {;
-            const size_t curr_tail = tail_.load(std::memory_order_seq_cst);
+            const size_t curr_tail = tail_.load(std::memory_order_relaxed);
             const size_t next_tail = (curr_tail + 1) % capacity_;
-            if ( next_tail != head_.load()) {
+            //Producer therefore we must acquire head (ensure we are sync'd with pop)
+            if ( next_tail != head_.load(std::memory_order_acquire)) {
                 //If head not directly in front of tail, we can push
                 buff_[curr_tail] = std::move(item);
-                tail_.store(next_tail);
+                //Release to ensure pop can get it
+                tail_.store(next_tail, std::memory_order_release);
                 return true;
             }
             else {
@@ -78,9 +81,13 @@ namespace My {
 
         // Returns true if successful, false if empty.
         bool pop(T& output) {
-            if (head_.load() != tail_.load()) {
-                output = std::move(buff_[head_]);
-                head_.store((head_ + 1) % capacity_);
+            //Pop owns head so we can do this relaxed
+            const size_t curr_head = head_.load(std::memory_order_relaxed);
+            //Acquire tail_ to ensure syncd with push()
+            if (curr_head != tail_.load(std::memory_order_acquire)) {
+                output = std::move(buff_[curr_head]);
+                //Release to ensure push() can get it
+                head_.store((curr_head + 1) % capacity_, std::memory_order_release);
                 return true;
             }
             else {
@@ -98,11 +105,11 @@ namespace My {
             return ((tail_ + 1) % capacity_) == head_;
         };
         size_t size() const noexcept {
-            const size_t curr_tail = tail_.load();
-            const size_t curr_head = head_.load();
+            const size_t curr_tail = tail_.load(std::memory_order_relaxed);
+            const size_t curr_head = head_.load(std::memory_order_relaxed);
 
             if (curr_head > curr_tail) {
-                return (capacity_ - curr_head + 1) + curr_tail;
+                return (capacity_ - curr_head) + curr_tail;
             }
             else {
                 return curr_tail - curr_head;

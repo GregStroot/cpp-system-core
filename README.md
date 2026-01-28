@@ -24,8 +24,10 @@ We are breaking them down into four categories:
     - [ ] Custom deleter constructor
 
 ### 2. Lock-Free & Queues
-- [ ] **`SpscRing<T>`**:
-- [ ] **`CircularBuffer<T>`**:
+- [x] **`SpscRing<T>`**:
+    - [x] `seq_cst` version
+    - [x] `acquire/release` version
+- [x] **`CircularBuffer<T>`**:
 - [ ] **`ConflationQueue<T>`**:
 - [ ] **`ProducerConsumer<T>`**:
 
