@@ -34,9 +34,9 @@ add_executable(circular_buffer_tests circular_buffer_tests.cpp)
 target_link_libraries(circular_buffer_tests GTest::gtest_main)
 gtest_discover_tests(circular_buffer_tests)
 
-# add_executable(spsc_tests spsc_tests.cpp)
-# target_link_libraries(spsc_tests GTest::gtest_main)
-# gtest_discover_tests(spsc_tests)
+add_executable(spsc_tests spsc_tests.cpp)
+target_link_libraries(spsc_tests GTest::gtest_main)
+gtest_discover_tests(spsc_tests)
 
 # ==========================================
 # 2. Day 3-8: Concurrency (LockFree, Threads)
