@@ -46,12 +46,9 @@ add_executable(spinlock_tests spinlock_tests.cpp)
 target_link_libraries(spinlock_tests GTest::gtest_main)
 gtest_discover_tests(spinlock_tests)
 
-# Uncomment when you reach Day 3
-# add_executable(concurrency_tests concurrency_tests.cpp)
-# target_link_libraries(concurrency_tests GTest::gtest_main pthread)
-# target_compile_options(concurrency_tests PRIVATE -fsanitize=thread -g)
-# target_link_options(concurrency_tests PRIVATE -fsanitize=thread)
-# gtest_discover_tests(concurrency_tests)
+add_executable(semaphore_test semaphore_test.cpp)
+target_link_libraries(semaphore_test GTest::gtest_main)
+gtest_discover_tests(semaphore_test)
 
 # ==========================================
 # 3. Day 9-10: Systems (OrderBook)
