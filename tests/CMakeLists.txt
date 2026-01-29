@@ -30,6 +30,10 @@ add_executable(shared_ptr_tests shared_ptr_tests.cpp)
 target_link_libraries(shared_ptr_tests GTest::gtest_main)
 gtest_discover_tests(shared_ptr_tests)
 
+# ==========================================
+# 2. Day 3-8: Concurrency (LockFree, Threads)
+# ==========================================
+
 add_executable(circular_buffer_tests circular_buffer_tests.cpp)
 target_link_libraries(circular_buffer_tests GTest::gtest_main)
 gtest_discover_tests(circular_buffer_tests)
@@ -38,9 +42,10 @@ add_executable(spsc_tests spsc_tests.cpp)
 target_link_libraries(spsc_tests GTest::gtest_main)
 gtest_discover_tests(spsc_tests)
 
-# ==========================================
-# 2. Day 3-8: Concurrency (LockFree, Threads)
-# ==========================================
+add_executable(spinlock_tests spinlock_tests.cpp)
+target_link_libraries(spinlock_tests GTest::gtest_main)
+gtest_discover_tests(spinlock_tests)
+
 # Uncomment when you reach Day 3
 # add_executable(concurrency_tests concurrency_tests.cpp)
 # target_link_libraries(concurrency_tests GTest::gtest_main pthread)
