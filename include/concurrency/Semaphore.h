@@ -48,7 +48,6 @@ namespace My {
         // Returns true if successful (counter was > 0).
         // Returns false immediately if counter was 0.
         bool try_acquire() {
-            //If we use no blocking, how do we ensure there isn't a data-race on count?
             std::unique_lock<std::mutex> lg(mutex_);
             if (count_ == 0) {
                 return false;

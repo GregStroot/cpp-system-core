@@ -50,6 +50,10 @@ add_executable(semaphore_test semaphore_test.cpp)
 target_link_libraries(semaphore_test GTest::gtest_main)
 gtest_discover_tests(semaphore_test)
 
+add_executable(mutex_tests mutex_tests.cpp)
+target_link_libraries(mutex_tests GTest::gtest_main)
+gtest_discover_tests(mutex_tests)
+
 # ==========================================
 # 3. Day 9-10: Systems (OrderBook)
 # ==========================================
