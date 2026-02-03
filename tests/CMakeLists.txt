@@ -54,6 +54,14 @@ add_executable(mutex_tests mutex_tests.cpp)
 target_link_libraries(mutex_tests GTest::gtest_main)
 gtest_discover_tests(mutex_tests)
 
+#add_executable(mpmc_tests mpmc_tests.cpp)
+#target_link_libraries(mpmc_tests GTest::gtest_main)
+#gtest_discover_tests(mpmc_tests)
+
+add_executable(rwlock_tests rwlock_tests.cpp)
+target_link_libraries(rwlock_tests GTest::gtest_main)
+gtest_discover_tests(rwlock_tests)
+
 # ==========================================
 # 3. Day 9-10: Systems (OrderBook)
 # ==========================================
