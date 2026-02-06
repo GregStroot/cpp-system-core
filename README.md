@@ -18,10 +18,12 @@ We are breaking them down into four categories:
 - [x] **`Vector<T>`**:
 - [x] **`Array<T, N>`**:
 - [x] **`SharedPtr<T>`**:
-    - [x] **make_shared**
+    - [x] **`make_shared`**
 - [x] **`UniquePtr<T>`**:
-    - [x] **make_unique**
+    - [x] **`make_unique`**
     - [ ] Custom deleter constructor
+- [ ] **`PageLockedArena`**:
+- [ ] **`ObjectPool`**:
 
 ### 2. Lock-Free & Queues
 - [x] **`SpscRing<T>`**:
@@ -32,14 +34,24 @@ We are breaking them down into four categories:
 - [ ] **`ProducerConsumer<T>`**:
 
 ### 3. Concurrency Primitives
-- [ ] **`Spinlock`**:
-- [ ] **`Semaphore`**:
-- [ ] **`RWLock`**:
+- [x] **`Mutex`**:
+- [x] **`Spinlock`**:
+- [x] **`Semaphore`**:
+- [x] **`RWLock`**:
+    - Lock free via atomic's
 - [ ] **`ThreadPool`**:
+- [ ] **`Seqlock`**:
+    - Optional, easy to write; conceptually interesting
 
 ### 4. Systems Components
 - [ ] **`OrderBook`**:
 - [ ] **`LRUCache<K, V>`**:
+- [ ] **`RateLimiter`**:
+- [ ] **`AsyncLogger`**:
+    - Optional, useful in production
+
+### 5. Market
+- [ ] **`ITCHHandler`**:
 
 ## Build & Test
 Dependencies: CMake 3.14+, GoogleTest (fetched automatically).

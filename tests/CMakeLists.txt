@@ -62,6 +62,10 @@ add_executable(rwlock_tests rwlock_tests.cpp)
 target_link_libraries(rwlock_tests GTest::gtest_main)
 gtest_discover_tests(rwlock_tests)
 
+add_executable(arena_tests arena_tests.cpp)
+target_link_libraries(arena_tests GTest::gtest_main)
+gtest_discover_tests(arena_tests)
+
 # ==========================================
 # 3. Day 9-10: Systems (OrderBook)
 # ==========================================
