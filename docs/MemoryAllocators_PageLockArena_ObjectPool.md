@@ -182,4 +182,19 @@
 # Effective Modern C++
 ## Item 40: Use `std::atomic` for concurrency, `volatile` for special memory
 
-*
+* `volatile` provides no guarentee of operation atomicity and insufficient restrictions on code reordering
+
+* `volatile` is the way we tell compilers that we're dealing with special memory
+    - It tells the compiler "Don't perform any optimizations on operations on this memory"
+
+* So if `x` corresponds to special memory, it'd be declared volatile:
+    * `volatile int x;`
+* Consider the effect on this code sequence:
+    ```
+    auto y = x; // read x
+    y = x;      // read x again (can't be optimised away)
+
+    x = 10;     // write x (can't be optimized away -- started as 10)
+    x = 20;     // write x again
+    ```
+    - This is precisely what we want if `x` is memory-mapped (or has been mapped to a memory location shared across processes)

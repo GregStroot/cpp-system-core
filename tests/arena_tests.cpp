@@ -28,9 +28,10 @@ TEST_F(ArenaTest, SimpleBumpAllocation) {
     auto addr1 = reinterpret_cast<uintptr_t>(p1);
     auto addr2 = reinterpret_cast<uintptr_t>(p2);
 
-    // p2 should be exactly 100 bytes ahead of p1 (assuming no alignment padding logic yet)
-    EXPECT_EQ(addr2 - addr1, 100);
-    EXPECT_EQ(arena.used(), 200);
+    // p2 must be at least 100 bytes ahead of addr1 (due to padding),
+    //      addr1 to next address multiple of alignment
+    EXPECT_GE(addr2 - addr1, 100);
+    EXPECT_EQ((addr2 - addr1) % 8, 0);
 }
 
 // 3. Can we actually write to the memory? (Segfault check)

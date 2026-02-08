@@ -8,10 +8,6 @@ namespace My {
 
     class PageLockedArena {
     public:
-        // TODO:
-        // 1. Use mmap to acquire 'size' bytes of memory.
-        // 2. Use mlock to prevent this memory from being swapped to disk.
-        // 3. Pre-fault the memory (write to every page) to force physical allocation now.
         explicit PageLockedArena(size_t size): size_(size) {
             //Allocate
             void* ptr = mmap(nullptr, size_,
@@ -32,25 +28,41 @@ namespace My {
             }
 
             //Pre-fault the memory to pay the price up-front
-            for (int i=0; i < size_; i += page_size) {
-                //TODO: Understand this! Why volatile
+            for (size_t i=0; i < size_; i += page_size) {
+                //Ptr arithmetic is indexed by sizeof(T), so we use char
+                //  that is one byte
+                volatile char* p = static_cast<char*>(ptr) + i;
+                *p = 0;
             }
 
-
+            //Save it
+            memory_ = ptr;
+            offset_ = 0;
         };
 
-        // TODO: Clean up resources (munmap).
-        ~PageLockedArena();
+        ~PageLockedArena() {
+            //Unmap memory
+            munmap(memory_, size_);
+            //Everything else is dealt with already
+        };
 
         // Prevent copying/moving (this is a resource handle)
         PageLockedArena(const PageLockedArena&) = delete;
         PageLockedArena& operator=(const PageLockedArena&) = delete;
 
-        // TODO: Implement a simple bump allocator.
-        // Return a pointer to the current offset and increment the offset.
-        // Throw std::bad_alloc or return nullptr if out of memory.
-        // (Optional: Handle alignment, but simple byte-granularity is acceptable for V1)
-        void* allocate(size_t bytes);
+        void* allocate(size_t bytes) {
+
+            size_t aligned_offset = (offset_ + 7) & ~7;
+            if (size_ - aligned_offset < bytes) {
+                throw std::bad_alloc();
+            }
+
+            char* ptr = static_cast<char*>(memory_) + aligned_offset;
+
+            offset_ = aligned_offset + bytes;
+
+            return static_cast<void*>(ptr);
+        };
 
         // Helper for the test suite to inspect internal state
         size_t capacity() const { return size_; }
@@ -61,7 +73,8 @@ namespace My {
         size_t size_ = 0;
         size_t offset_ = 0;
         //Default page size is 4KB
-        static constexpr page_size = 4096;
+        static constexpr size_t page_size = 4096;
+        static constexpr size_t alignment = 8;
     };
 }
 
